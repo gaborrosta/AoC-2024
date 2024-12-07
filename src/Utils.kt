@@ -1,3 +1,4 @@
+import java.util.*
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
 import kotlin.math.cos
@@ -40,4 +41,25 @@ data class Point(val x: Int, val y: Int) {
 
     fun rotate(degrees: Int): Point = rotate(degrees * (Math.PI / 180.0))
 
+}
+
+
+/**
+ *   Permutations.
+ *   https://stackoverflow.com/questions/63433335/java-alternative-of-product-function-of-python-form-itertools
+ */
+fun <T> Collection<T>.product(r: Int): List<Collection<T>> {
+    var result = Collections.nCopies<Collection<T>>(1, emptyList())
+    for (pool in Collections.nCopies(r, LinkedHashSet(this))) {
+        val temp: MutableList<Collection<T>> = ArrayList()
+        for (x in result) {
+            for (y in pool) {
+                val z: MutableCollection<T> = ArrayList(x)
+                z.add(y)
+                temp.add(z)
+            }
+        }
+        result = temp
+    }
+    return result
 }
