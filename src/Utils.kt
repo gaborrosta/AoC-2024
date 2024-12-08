@@ -26,6 +26,8 @@ data class Point(val x: Int, val y: Int) {
 
     operator fun plus(other: Point): Point = Point(x + other.x, y + other.y)
 
+    operator fun minus(other: Point): Point = Point(x - other.x, y - other.y)
+
     fun inBound(minX: Int, maxX: Int, minY: Int, maxY: Int): Boolean = x in minX..maxX && y in minY..maxY
     fun inBound(maxX: Int, maxY: Int): Boolean = inBound(0, maxX, 0, maxY)
 
@@ -62,4 +64,18 @@ fun <T> Collection<T>.product(r: Int): List<Collection<T>> {
         result = temp
     }
     return result
+}
+
+/**
+ *   Combinations.
+ */
+fun <T> combinations(seed: Iterable<T>, count: Int): List<List<T>> {
+
+    fun inner(acc: List<List<T>>, remaining: Int): List<List<T>> = when (remaining) {
+        0 -> acc
+        count -> inner(seed.map { s -> listOf(s) }, remaining - 1)
+        else -> inner(seed.flatMap { s -> acc.map { list -> list + s } }, remaining - 1)
+    }
+
+    return inner(emptyList(), count)
 }
