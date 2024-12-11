@@ -20,6 +20,14 @@ fun <T> Collection<Collection<T>>.rotate(): List<List<T>> {
 
 
 /**
+ *   Increment value in a MutableMap.
+ */
+fun <T : Any> MutableMap<T, Long>.increment(key: T, long: Long = 1) {
+    this.compute(key) { _: T, v: Long? -> if (v == null) long else v + long }
+}
+
+
+/**
  *   Point in 2D.
  */
 data class Point(val x: Int, val y: Int) {
