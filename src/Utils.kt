@@ -1,6 +1,7 @@
 import java.util.*
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
+import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.roundToInt
 import kotlin.math.sin
@@ -35,6 +36,8 @@ data class Point(val x: Int, val y: Int) {
     operator fun plus(other: Point): Point = Point(x + other.x, y + other.y)
 
     operator fun minus(other: Point): Point = Point(x - other.x, y - other.y)
+
+    fun manhattan(other: Point): Int = abs(x - other.x) + abs(y - other.y)
 
     fun inBound(minX: Int, maxX: Int, minY: Int, maxY: Int): Boolean = x in minX..maxX && y in minY..maxY
     fun inBound(maxX: Int, maxY: Int): Boolean = inBound(0, maxX, 0, maxY)
