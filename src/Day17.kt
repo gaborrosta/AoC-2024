@@ -7,12 +7,11 @@ fun main() {
     println("Part 2: ${part2(data)}")
 }
 
-
-fun runProgram(registers: Triple<Long, Long, Long>, instructions: List<List<Int>>): String {
+fun runProgram(registers: Triple<Long, Long, Long>, instructions: List<List<Int>>): List<Int> {
     var (regA, regB, regC) = registers
     val length = instructions.size
 
-    var result = ""
+    val result = arrayListOf<Int>()
 
     var pointer = 0
     while (pointer < length) {
@@ -31,9 +30,9 @@ fun runProgram(registers: Triple<Long, Long, Long>, instructions: List<List<Int>
                 }
 
                 val numerator = regA
-                val denominator = 2F.pow(combo.toFloat())
+                val denominator = 2F.pow(combo.toFloat()).toLong()
 
-                regA = (numerator / denominator).toLong()
+                regA = (numerator / denominator)
                 pointer++
             }
 
@@ -79,7 +78,7 @@ fun runProgram(registers: Triple<Long, Long, Long>, instructions: List<List<Int>
                     else -> throw Exception("Unknown combo operand")
                 }
 
-                result += "${combo % 8},"
+                result.add((combo % 8).toInt())
                 pointer++
             }
 
@@ -94,9 +93,9 @@ fun runProgram(registers: Triple<Long, Long, Long>, instructions: List<List<Int>
                 }
 
                 val numerator = regA
-                val denominator = 2F.pow(combo.toFloat())
+                val denominator = 2F.pow(combo.toFloat()).toLong()
 
-                regB = (numerator / denominator).toLong()
+                regB = (numerator / denominator)
                 pointer++
             }
 
@@ -111,16 +110,17 @@ fun runProgram(registers: Triple<Long, Long, Long>, instructions: List<List<Int>
                 }
 
                 val numerator = regA
-                val denominator = 2F.pow(combo.toFloat())
+                val denominator = 2F.pow(combo.toFloat()).toLong()
 
-                regC = (numerator / denominator).toLong()
+                regC = (numerator / denominator)
                 pointer++
             }
         }
     }
 
-    return result.dropLast(1)
+    return result
 }
+
 
 //Part 1
 private fun part1(data: List<String>): String {
@@ -130,11 +130,12 @@ private fun part1(data: List<String>): String {
 
     val input = data[4].split(": ")[1].split(",").windowed(2, 2).map { l -> l.map { n -> n.toInt() } }
 
-    return runProgram(Triple(regA, regB, regC), input)
+    return runProgram(Triple(regA, regB, regC), input).joinToString(",")
 }
 
 
 //Part 2
 private fun part2(data: List<String>): Int {
+    //I did not manage to solve this part on my own, I needed help from others' solutions.
     return -1
 }
