@@ -4,7 +4,7 @@ fun main() {
     val data = readFile(16)
 
     println("Part 1: ${part1(data)}")
-    println("Part 2: ${part2(data)}")
+    println("Part 2: ${part2()}")
 }
 
 
@@ -62,6 +62,7 @@ private fun part1(data: List<String>): Int {
 
 
 //Part 2
-private fun part2(data: List<String>): Int {
+private fun part2(): Int {
+    //I did not manage to solve this part on my own, I needed help from others' solutions.
     return -1
 }
