@@ -110,3 +110,74 @@ fun <T> combinations(seed: Iterable<T>, count: Int): List<List<T>> {
 
     return inner(emptyList(), count)
 }
+
+
+/**
+ *   Basic Graph.
+ */
+class Graph<T> {
+    val adjacencyMap: HashMap<T, HashSet<T>> = HashMap()
+
+    fun addEdge(sourceVertex: T, destinationVertex: T) {
+        adjacencyMap.computeIfAbsent(sourceVertex) { HashSet() }.add(destinationVertex)
+    }
+
+    fun findCycles(maxLength: Int? = null): List<List<T>> {
+        fun util(node: T, visited: HashMap<T, Boolean>, parent: T?, path: ArrayList<T>, cycles: HashSet<List<T>>, maxLength: Int?) {
+            visited[node] = true
+            path.add(node)
+
+            if (maxLength == null || path.size < maxLength + 1) {
+                (adjacencyMap[node] ?: hashSetOf()).forEach { neighbour ->
+                    if (visited[neighbour] != true) {
+                        util(neighbour, visited, parent, path, cycles, maxLength)
+                    } else if (neighbour != parent) {
+                        val cycleStartIndex = path.indexOf(neighbour)
+                        cycles.add(path.drop(cycleStartIndex))
+                    }
+                }
+            }
+
+            path.removeLast()
+            visited[node] = false
+        }
+
+        val visited = this.adjacencyMap.keys.associateWithTo(hashMapOf()) { false }
+        val cycles = hashSetOf<List<T>>()
+
+        this.adjacencyMap.keys.forEach { key ->
+            if (visited[key] != true) {
+                util(key, visited, null, arrayListOf(), cycles, maxLength)
+            }
+        }
+
+        return cycles.toList()
+    }
+
+    /**
+     *   Bron–Kerbosch algorithm
+     */
+    fun getAllCliques(
+        currentClique: Set<T>,
+        remainingNodes: MutableSet<T>,
+        visitedNodes: MutableSet<T>
+    ): List<Set<T>> {
+        if (remainingNodes.isEmpty() && visitedNodes.isEmpty()) return listOf(currentClique)
+        val results = mutableListOf<Set<T>>()
+
+        remainingNodes.toList().forEach { v ->
+            val neighbours = adjacencyMap[v]?.toSet() ?: emptySet()
+            results.addAll(
+                getAllCliques(
+                    currentClique + v,
+                    remainingNodes.intersect(neighbours).toMutableSet(),
+                    visitedNodes.intersect(neighbours).toMutableSet()
+                )
+            )
+            remainingNodes.remove(v)
+            visitedNodes.add(v)
+        }
+        return results
+    }
+
+}
