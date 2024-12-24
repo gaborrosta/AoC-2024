@@ -1,10 +1,7 @@
 import java.util.*
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
-import kotlin.math.abs
-import kotlin.math.cos
-import kotlin.math.roundToInt
-import kotlin.math.sin
+import kotlin.math.*
 
 /**
  *   Read input file.
@@ -180,4 +177,24 @@ class Graph<T> {
         return results
     }
 
+}
+
+
+/**
+ *   Convert binary number to decimal.
+ */
+fun binToDec(bin: String): Long {
+    var num = bin
+    var decimalNumber = 0L
+    var i = 0
+    var remainder: Long
+
+    while (num.isNotEmpty()) {
+        remainder = num.last().code.toLong() - 48
+        num = num.dropLast(1)
+        decimalNumber += (remainder * 2.0.pow(i.toDouble())).toLong()
+        i++
+    }
+
+    return decimalNumber
 }
