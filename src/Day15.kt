@@ -86,5 +86,6 @@ private fun part1(data: String): Int {
 
 //Part 2
 private fun part2(data: String): Int {
+    //I did not manage to solve this on my own, I needed help from others' solutions.
     return -1
 }

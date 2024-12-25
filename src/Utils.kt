@@ -198,3 +198,10 @@ fun binToDec(bin: String): Long {
 
     return decimalNumber
 }
+
+/**
+ *   Rotate a string matrix.
+ */
+fun Collection<String>.rotateStrings(): List<String> {
+    return this.flatMap { it.withIndex() }.groupBy({ (i, _) -> i }, { (_, v) -> v }).map { (_, v) -> v.reversed().joinToString("") }
+}
